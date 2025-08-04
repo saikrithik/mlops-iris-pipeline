@@ -1,0 +1,27 @@
+(venv) PS E:\BITS\sem3\ML-OPs\mlops-iris-pipeline> docker build --no-cache -t iris-api:latest -f Dockerfile .
+[+] Building 999.4s (13/13) FINISHED                                                                                                                                     docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                                     0.0s
+ => => transferring dockerfile: 547B                                                                                                                                                     0.0s 
+ => resolve image config for docker-image://docker.io/docker/dockerfile:1                                                                                                                0.9s 
+ => CACHED docker-image://docker.io/docker/dockerfile:1@sha256:9857836c9ee4268391bb5b09f9f157f3c91bb15821bb77969642813b0d00518d                                                          0.1s
+ => => resolve docker.io/docker/dockerfile:1@sha256:9857836c9ee4268391bb5b09f9f157f3c91bb15821bb77969642813b0d00518d                                                                     0.1s 
+ => [internal] load metadata for docker.io/library/python:3.12-slim                                                                                                                      0.8s
+ => [internal] load .dockerignore                                                                                                                                                        0.0s
+ => => transferring context: 2B                                                                                                                                                          0.0s 
+ => CACHED [1/6] FROM docker.io/library/python:3.12-slim@sha256:9c1d9ed7593f2552a4ea47362ec0d2ddf5923458a53d0c8e30edf8b398c94a31                                                         0.1s 
+ => => resolve docker.io/library/python:3.12-slim@sha256:9c1d9ed7593f2552a4ea47362ec0d2ddf5923458a53d0c8e30edf8b398c94a31                                                                0.0s 
+ => [internal] load build context                                                                                                                                                        0.0s
+ => => transferring context: 406B                                                                                                                                                        0.0s 
+ => [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         build-essential git && rm -rf /var/lib/apt/lists/*                                                   41.2s 
+ => [3/6] WORKDIR /app                                                                                                                                                                   0.1s 
+ => [4/6] COPY api/requirements.txt .                                                                                                                                                    0.1s 
+ => [5/6] RUN pip install --no-cache-dir -r requirements.txt                                                                                                                           797.1s 
+ => [6/6] COPY api/ .                                                                                                                                                                    0.9s 
+ => exporting to image                                                                                                                                                                 155.7s 
+ => => exporting layers                                                                                                                                                                120.7s 
+ => => exporting manifest sha256:21e40da1f751a3704f1be12e0eb152ccbceeacfbc97c6906e172aaaeb8b00a56                                                                                        0.0s 
+ => => exporting config sha256:166c8c3e89c82257ed1dbd704e20e659673094dce2ed769bce35d28ef15b8b9e                                                                                          0.0s 
+ => => exporting attestation manifest sha256:715cbd3830feae58b12017cd83b5d9d37d20226220b75e293c002bbc9abfa4b9                                                                            0.0s 
+ => => exporting manifest list sha256:233a6d5ad9a982f99f0b569e560ac0a9eeb4e99a6f2055ca33e9e16faacf130e                                                                                   0.0s 
+ => => naming to docker.io/library/iris-api:latest                                                                                                                                       0.0s 
+ => => unpacking to docker.io/library/iris-api:latest                                                                                                                                   34.8s
