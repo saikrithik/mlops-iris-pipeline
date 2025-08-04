@@ -1,0 +1,13 @@
+scikit-learn==1.4.2
+pandas==2.2.2
+mlflow==2.12.1
+joblib==1.4.2
+black==24.3.0
+flake8==7.0.0
+pytest==8.2.1
+
+fastapi==0.95.2          # pydantic v1
+uvicorn[standard]==0.23.2
+xgboost==3.0.3           # or remove if using another model
+lightgbm==4.6.0          # idem
+pydantic<2.0
