@@ -48,8 +48,8 @@ docker ps -a --filter name=iris-api-demo
 docker logs -f iris-api-demo
 
 # to predict
- $body = @{sepal_length=5.1; sepal_width=3.5; petal_length=1.4; petal_width=0.2} | ConvertTo-Json
->> Invoke-RestMethod -Uri http://localhost:8000/predict -Method Post -ContentType application/json -Body $body
+$body = @{sepal_length=5.1; sepal_width=3.5; petal_length=1.4; petal_width=0.2} | ConvertTo-Json
+Invoke-RestMethod -Uri http://localhost:8000/predict -Method Post -ContentType application/json -Body $body
 
 # NOTE: to delete docker container
 docker rm -f iris-api-demo 2>$null
