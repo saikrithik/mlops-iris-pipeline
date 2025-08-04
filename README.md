@@ -10,8 +10,12 @@ pip install -r requirements.txt
 
 pip install setuptools
 
-mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns --host 127.0.0.1 --port 5000
-
+```
+mlflow server `
+>>   --backend-store-uri sqlite:///mlflow.db `
+>>   --default-artifact-root file:/mlruns `
+>>   --host 0.0.0.0 --port 5000
+```
 
 # install docker from 
 https://www.docker.com/products/docker-desktop/
@@ -24,10 +28,18 @@ https://www.docker.com/products/docker-desktop/
 
 
 # to build docker image
-docker build -t iris-api:latest -f Dockerfile .
+    # for first time:
+    docker build -t iris-api:latest -f Dockerfile .
+
+    # for second time:
+    docker build -t iris-api:latest .
+
+    # if want with env change no cache
+    docker build --no-cache -t iris-api:latest -f Dockerfile .
+
 
 # to run and host docker image
-powershell docker run -d -p 8000:8000  -e MLFLOW_TRACKING_URI=http://host.docker.internal:5000  -e MODEL_NAME=iris_xgb_feat  -e MODEL_STAGE=Production  --name iris-api-demo iris-api:latest
+docker run -d --name iris-api-demo -p 8000:8000 iris-api:latest
 
 # to check if the image is active
 docker ps -a --filter name=iris-api-demo
@@ -36,8 +48,8 @@ docker ps -a --filter name=iris-api-demo
 docker logs -f iris-api-demo
 
 # to predict
-curl.exe -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d "{\"sepal_length\":5.1,\"sepal_width\":3.5,\"petal_length\":1.4,\"petal_width\":0.2}"
-
+ $body = @{sepal_length=5.1; sepal_width=3.5; petal_length=1.4; petal_width=0.2} | ConvertTo-Json
+>> Invoke-RestMethod -Uri http://localhost:8000/predict -Method Post -ContentType application/json -Body $body
 
 # NOTE: to delete docker container
-docker rm -f iris-api-demo
+docker rm -f iris-api-demo 2>$null
