@@ -32,5 +32,12 @@ powershell docker run -d -p 8000:8000  -e MLFLOW_TRACKING_URI=http://host.docker
 # to check if the image is active
 docker ps -a --filter name=iris-api-demo
 
+# to check docker logs
+docker logs -f iris-api-demo
+
 # to predict
 curl.exe -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d "{\"sepal_length\":5.1,\"sepal_width\":3.5,\"petal_length\":1.4,\"petal_width\":0.2}"
+
+
+# NOTE: to delete docker container
+docker rm -f iris-api-demo
