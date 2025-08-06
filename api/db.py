@@ -1,6 +1,8 @@
 import sqlite3
 
+
 def init_db():
+
     conn = sqlite3.connect("logs/predictions.db")
     cursor = conn.cursor()
     cursor.execute("""
@@ -17,7 +19,9 @@ def init_db():
     conn.commit()
     conn.close()
 
+
 def log_to_db(input_data, prediction):
+
     conn = sqlite3.connect("logs/predictions.db")
     cursor = conn.cursor()
     cursor.execute("""

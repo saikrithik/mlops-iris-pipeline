@@ -2,7 +2,7 @@
 from db import init_db, log_to_db
 from pathlib import Path
 import joblib
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from pydantic import BaseModel
 import logging
 from prometheus_fastapi_instrumentator import Instrumentator
@@ -16,20 +16,26 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(message)s"
 )
 
+
 app = FastAPI(title="Iris Classifier", version="1.0")
+
 
 instrumentator = Instrumentator()
 instrumentator.instrument(app).expose(app)
 
 
 MODEL_FILE = Path(__file__).parent / "model.pkl"
+
+
 model = joblib.load(MODEL_FILE)
+
 
 class IrisIn(BaseModel):
     sepal_length: float
     sepal_width: float
     petal_length: float
     petal_width: float
+
 
 @app.post("/predict")
 def predict(inp: IrisIn):
