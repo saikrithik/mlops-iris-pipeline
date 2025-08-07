@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s # How often to scrape metrics
+
+scrape_configs:
+  - job_name: 'iris-api'
+    # The API service will be available at hostname 'iris-api' on port 8000
+    # inside the Docker network created by docker-compose.
+    static_configs:
+      - targets: ['iris-api:8000']

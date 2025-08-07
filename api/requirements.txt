@@ -12,3 +12,5 @@ xgboost==3.0.3           # or remove if using another model
 lightgbm==4.6.0          # idem
 pydantic<2.0
 setuptools
+prometheus-client
+prometheus-fastapi-instrumentator

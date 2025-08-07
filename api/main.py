@@ -3,8 +3,10 @@ from pathlib import Path
 import joblib
 from fastapi import FastAPI
 from pydantic import BaseModel
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="Iris Classifier", version="1.0")
+Instrumentator().instrument(app).expose(app)
 
 MODEL_FILE = Path(__file__).parent / "model.pkl"
 model = joblib.load(MODEL_FILE)

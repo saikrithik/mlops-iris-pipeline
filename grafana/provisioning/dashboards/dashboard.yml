@@ -1,0 +1,12 @@
+apiVersion: 1
+
+providers:
+  - name: 'default'
+    orgId: 1
+    folder: ''
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      # Path where Grafana will look for dashboard JSON files inside the container
+      path: /var/lib/grafana/dashboards
