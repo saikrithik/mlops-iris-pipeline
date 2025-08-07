@@ -1,6 +1,6 @@
 import os
 import joblib
-import mlflow, mlflow.sklearn
+import mlflow
 from mlflow.tracking import MlflowClient
 
 from sklearn.metrics import accuracy_score
@@ -23,7 +23,10 @@ client = MlflowClient()
 os.makedirs("models", exist_ok=True)
 
 # --------------------------------------------------------------------------
+
+
 def make_model(tag: str):
+
     if tag == "logreg":
         return LogisticRegression(max_iter=200, n_jobs=-1), {"max_iter": 200}
     if tag == "rf":
@@ -57,7 +60,10 @@ def make_model(tag: str):
     raise ValueError(f"Unknown model tag: {tag}")
 
 # --------------------------------------------------------------------------
+
+
 def run(tag: str, feats: bool):
+
     X_train, X_test, y_train, y_test = load_data(add_features=feats)
     model, params = make_model(tag)
 
@@ -93,6 +99,7 @@ def run(tag: str, feats: bool):
             print(f"→ New version {mv.version} for {registry_name}")
 
         print(f"{run_name:<15} | acc={acc:.4f} | saved → {local_path}")
+
 
 # --------------------------------------------------------------------------
 if __name__ == "__main__":

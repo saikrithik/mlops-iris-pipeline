@@ -3,7 +3,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 
+
 def load_data(test_size=0.2, random_state=42, add_features=False):
+
     iris = load_iris()
     X = pd.DataFrame(iris.data, columns=iris.feature_names)
     y = iris.target
