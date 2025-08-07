@@ -1,9 +1,8 @@
 # tests/test_api.py
-import fastapi
-from fastapi.testclient import TestClient, WSGITransport
+from fastapi.testclient import TestClient
 from api.main import app
 
-client = TestClient(transport=WSGITransport(app=app))
+client = TestClient(app)
 
 def test_predict_endpoint():
     response = client.get("/")
