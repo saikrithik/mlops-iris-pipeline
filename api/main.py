@@ -1,5 +1,5 @@
 # api/main.py  (no MLflow!)
-from db import init_db, log_to_db
+from api.db import init_db, log_to_db
 from pathlib import Path
 import joblib
 from fastapi import FastAPI
