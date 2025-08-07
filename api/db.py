@@ -1,8 +1,9 @@
 import sqlite3
+import os
 
 
 def init_db():
-
+    os.makedirs("logs", exist_ok=True)
     conn = sqlite3.connect("logs/predictions.db")
     cursor = conn.cursor()
     cursor.execute("""
