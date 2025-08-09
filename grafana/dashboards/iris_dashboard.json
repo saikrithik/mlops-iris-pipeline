@@ -1,0 +1,17 @@
+{
+  "dashboard": {
+    "title": "Iris API Metrics",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Request Latency",
+        "targets": [
+          {
+            "expr": "http_request_duration_seconds_sum",
+            "legendFormat": "Latency"
+          }
+        ]
+      }
+    ]
+  }
+}
