@@ -123,6 +123,7 @@ curl -X POST "http://localhost:8000/predict" \
 
 ### Grafana
 - Dashboard: http://localhost:3000
+- Access Credentials:  admin/admin@123
 - Default credentials: admin/admin
 - Pre-configured dashboard for Iris model monitoring
 
@@ -172,6 +173,8 @@ flake8 src/ tests/
 3. **MLflow connection issues**: Verify the MLflow server is running on port 5000
 
 ### Cleanup Commands
+
+Docker link - https://hub.docker.com/layers/saikrithik/iris-api/latest/images/sha256-2bfc85b4a7d41d2091f184b6de25a975f238290db93091638d582c32f7685b52
 
 ```bash
 # Remove Docker container
