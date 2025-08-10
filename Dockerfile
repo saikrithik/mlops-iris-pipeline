@@ -11,7 +11,9 @@ COPY api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 3. Copy source
-COPY api/ .
+COPY api/ ./api
+COPY src/ ./src
+
 
 # 4. Expose & launch
 ENV UVICORN_PORT=8000
