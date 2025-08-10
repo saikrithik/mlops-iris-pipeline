@@ -51,5 +51,8 @@ docker logs -f iris-api-demo
 $body = @{sepal_length=5.1; sepal_width=3.5; petal_length=1.4; petal_width=0.2} | ConvertTo-Json
 Invoke-RestMethod -Uri http://localhost:8000/predict -Method Post -ContentType application/json -Body $body
 
+# to compose docker bring up API + Prometheus + Grafana
+docker compose up -d
+
 # NOTE: to delete docker container
 docker rm -f iris-api-demo 2>$null
