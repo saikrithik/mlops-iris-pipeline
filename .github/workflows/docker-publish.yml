@@ -8,6 +8,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
@@ -27,6 +28,37 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha
 
+      # Build for test (no push), load to local docker so we can run it
+      - name: Build (load for test)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          load: true
+          tags: iris-api:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run container
+        run: docker run -d --name iris-api -p 8000:8000 iris-api:test
+
+      - name: Smoke test /predict
+        run: |
+          for i in {1..40}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" \
+              -H "Content-Type: application/json" \
+              -d '{"sepal_length":5.1,"sepal_width":3.5,"petal_length":1.4,"petal_width":0.2}' \
+              http://localhost:8000/predict)
+            if [ "$code" = "200" ]; then exit 0; fi
+            sleep 0.5
+          done
+          echo "API did not respond 200 in time"; docker logs iris-api; exit 1
+
+      - name: Stop test container
+        if: always()
+        run: docker rm -f iris-api || true
+
+      # Final push (uses cache, same Dockerfile)
       - name: Build & Push
         uses: docker/build-push-action@v5
         with:

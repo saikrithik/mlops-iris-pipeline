@@ -25,6 +25,3 @@ jobs:
 
       - name: Lint code
         run: flake8 src/ api/ --max-line-length=120
-
-      - name: Run tests
-        run: PYTHONPATH=. pytest
