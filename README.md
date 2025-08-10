@@ -11,10 +11,7 @@ pip install -r requirements.txt
 pip install setuptools
 
 ```
-mlflow server `
->>   --backend-store-uri sqlite:///mlflow.db `
->>   --default-artifact-root file:/mlruns `
->>   --host 0.0.0.0 --port 5000
+mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root file:/mlruns --host 0.0.0.0 --port 5000
 ```
 
 # install docker from 
