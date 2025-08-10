@@ -1,55 +1,185 @@
-# mlops-iris-pipeline
-MLOps IRIS Dataset CI/CD Pipeline
+# MLOps Iris Pipeline
 
-# PYTHON VERSION - 3.12.0
+A comprehensive MLOps pipeline for the Iris dataset classification problem, featuring automated training, model versioning, API deployment, and monitoring with Prometheus and Grafana.
 
+## Overview
+
+This project demonstrates a complete MLOps workflow including:
+- Automated model training and evaluation
+- Model versioning with MLflow
+- REST API deployment with FastAPI
+- Containerization with Docker
+- Monitoring and observability with Prometheus and Grafana
+- CI/CD pipeline integration
+
+## Prerequisites
+
+- Python 3.12.0
+- Docker Desktop
+- WSL2 (for Windows users)
+- PowerShell (Admin mode for Windows setup)
+
+## Quick Start
+
+### 1. Environment Setup
+
+```bash
+# Create virtual environment
 python -m venv venv
+
+# Activate virtual environment
+# Windows:
 venv\Scripts\activate
+# Linux/Mac:
+source venv/bin/activate
 
+# Install dependencies
 pip install -r requirements.txt
-
 pip install setuptools
-
-```
-mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root file:/mlruns --host 0.0.0.0 --port 5000
 ```
 
-# install docker from 
-https://www.docker.com/products/docker-desktop/
+### 2. MLflow Server Setup
 
+```bash
+mlflow server \
+  --backend-store-uri sqlite:///mlflow.db \
+  --default-artifact-root file:/mlruns \
+  --host 0.0.0.0 --port 5000
+```
 
-# IN powershell - admin mode
- wsl --install
->> dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
->> dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+### 3. Docker Setup (Windows)
 
+If you're on Windows, install WSL2 and Docker Desktop:
 
-# to build docker image
-    # for first time:
-    docker build -t iris-api:latest -f Dockerfile .
+```powershell
+# Install WSL2 (run in PowerShell as Administrator)
+wsl --install
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+```
 
-    # for second time:
-    docker build -t iris-api:latest .
+Download and install Docker Desktop from: https://www.docker.com/products/docker-desktop/
 
-    # if want with env change no cache
-    docker build --no-cache -t iris-api:latest -f Dockerfile .
+## Usage
 
+### Model Training
 
-# to run and host docker image
+```bash
+# Train models
+python src/train.py
+```
+
+### API Deployment
+
+#### Option 1: Docker Container
+
+```bash
+# Build Docker image
+docker build -t iris-api:latest -f Dockerfile .
+
+# Run container
 docker run -d --name iris-api-demo -p 8000:8000 iris-api:latest
 
-# to check if the image is active
+# Check container status
 docker ps -a --filter name=iris-api-demo
 
-# to check docker logs
+# View logs
 docker logs -f iris-api-demo
+```
 
-# to predict
-$body = @{sepal_length=5.1; sepal_width=3.5; petal_length=1.4; petal_width=0.2} | ConvertTo-Json
-Invoke-RestMethod -Uri http://localhost:8000/predict -Method Post -ContentType application/json -Body $body
+#### Option 2: Docker Compose (Full Stack)
 
-# to compose docker bring up API + Prometheus + Grafana
+```bash
+# Deploy API + Prometheus + Grafana
 docker compose up -d
+```
 
-# NOTE: to delete docker container
-docker rm -f iris-api-demo 2>$null
+### API Testing
+
+#### PowerShell Example
+```powershell
+$body = @{
+    sepal_length=5.1
+    sepal_width=3.5
+    petal_length=1.4
+    petal_width=0.2
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri http://localhost:8000/predict -Method Post -ContentType application/json -Body $body
+```
+
+#### cURL Example
+```bash
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2}'
+```
+
+## Monitoring
+
+### Prometheus
+- Metrics endpoint: http://localhost:9090
+- Collects API performance metrics and model predictions
+
+### Grafana
+- Dashboard: http://localhost:3000
+- Default credentials: admin/admin
+- Pre-configured dashboard for Iris model monitoring
+
+### MLflow
+- Tracking server: http://localhost:5000
+- Model registry and experiment tracking
+
+## API Endpoints
+
+- `GET /health` - Health check
+- `POST /predict` - Make predictions
+- `GET /metrics` - Prometheus metrics
+
+## Model Information
+
+The pipeline trains multiple models:
+- Decision Tree (baseline and feature-engineered)
+- LightGBM (baseline and feature-engineered)
+- Random Forest
+- Support Vector Machine
+- Logistic Regression
+
+Models are automatically evaluated and the best performing model is selected for deployment.
+
+## Development
+
+### Running Tests
+```bash
+python -m pytest tests/
+```
+
+### Code Quality
+```bash
+# Format code
+black src/ tests/
+
+# Lint code
+flake8 src/ tests/
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Docker build fails**: Ensure Docker Desktop is running and WSL2 is properly configured
+2. **Port conflicts**: Check if ports 8000, 5000, 9090, or 3000 are already in use
+3. **MLflow connection issues**: Verify the MLflow server is running on port 5000
+
+### Cleanup Commands
+
+```bash
+# Remove Docker container
+docker rm -f iris-api-demo
+
+# Stop all services
+docker compose down
+
+# Clean up Docker images
+docker rmi iris-api:latest
+```
