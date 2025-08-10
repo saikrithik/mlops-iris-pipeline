@@ -68,6 +68,16 @@ jobs:
           done
           echo "API did not respond 200 in time"; docker logs iris-api; exit 1
 
+      - name: Install test deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest requests
+
+      - name: Run pytest (integration tests)
+        env:
+          API_URL: http://localhost:8000
+        run: pytest -q tests/test_api.py
+
       - name: Stop test container
         if: always()
         run: docker rm -f iris-api || true
