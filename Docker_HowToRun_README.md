@@ -2,10 +2,10 @@
 
 ```bash
 # pull image
-docker pull YOUR_DH_USER/iris-api:1.0.0           # ≈ 150 MB download
+docker pull saikrithik/iris-api:latest          # ≈ 150 MB download
 
 # start container on port 8000
-docker run -d --name iris-api -p 8000:8000 YOUR_DH_USER/iris-api:1.0.0
+docker run -d --name iris-api -p 8000:8000 saikrithik/iris-api:latest
 
 # test
 $body = @{sepal_length=5.1; sepal_width=3.5; petal_length=1.4; petal_width=0.2} | ConvertTo-Json
