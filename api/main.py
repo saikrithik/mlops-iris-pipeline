@@ -65,3 +65,10 @@ def retrain():
         return {"status": "failed", "error": result.stderr}
 
     return {"status": "success", "output": result.stdout}
+
+
+# Health Check for api
+@app.get("/healthz")
+def healthz():
+
+    return {"status": "ok"}

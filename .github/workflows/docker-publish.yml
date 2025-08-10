@@ -42,6 +42,20 @@ jobs:
       - name: Run container
         run: docker run -d --name iris-api -p 8000:8000 iris-api:test
 
+      - name: Wait for /healthz
+        run: |
+          for i in {1..60}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/healthz || true)
+            if [ "$code" = "200" ]; then
+              echo "Health OK"
+              exit 0
+            fi
+            sleep 0.5
+          done
+          echo "API did not become healthy in time"
+          docker logs iris-api || true
+          exit 1
+
       - name: Smoke test /predict
         run: |
           for i in {1..40}; do
